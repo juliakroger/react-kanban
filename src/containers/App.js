@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import Header from '../components/Header';
 
 class App extends Component {
@@ -11,4 +12,10 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    column: state.columns,
+  }
+};
+
+export default connect(mapStateToProps)(App);
