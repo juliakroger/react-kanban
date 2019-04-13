@@ -7,9 +7,13 @@ const Column = (props) => {
       <div>
         <Grid.Column style={{minWidth: '300px', marginBottom: '20px', margin: '3px'}}>
           <Menu fluid vertical>
-            <Menu.Item className='header'>title</Menu.Item>
+            <Menu.Item className='header'>{props.column.title}</Menu.Item>
             <Grid.Row>
-              <Task />
+              {
+                props.column.tasks.map((task, index) => {
+                  return <Task task={task}/>
+                })
+              }
               <Button basic color='teal' fluid onClick={props.openModal}>Add a new task</Button>
             </Grid.Row>
           </Menu>

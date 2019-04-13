@@ -11,11 +11,15 @@ class App extends Component {
         <Header/>
         <Grid style={{margin: '8px'}}>
           <Grid.Row columns={5}>
-              <Column/>
-              <Column/>
-              <Column/>
-              <Column/>
-              <Column/>
+            {
+              this.props.column.map((column, i) =>
+                  <Column
+                      column={column}
+                      index={i}
+                      key={i}
+                  />
+              )
+            }
           </Grid.Row>
         </Grid>
       </div>
