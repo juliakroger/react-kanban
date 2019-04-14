@@ -1,5 +1,5 @@
-# reddit-reader
-Application for reading the first 50 posts from a sub-reddit.
+# react-kanban
+Kanban board made with react
 
 ### Demo
 Live version
