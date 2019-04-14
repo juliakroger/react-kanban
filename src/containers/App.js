@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Grid, Modal, Form, Button} from 'semantic-ui-react';
+import {Button, Form, Grid, Modal} from 'semantic-ui-react';
 import Header from '../components/Header';
 import Column from '../components/Column';
 import * as actions from "../store/actions/actionsTypes";
 
+
 const ModalOptions = [
-  { key: 'low', text: 'Low', value: 'low' },
-  { key: 'medium', text: 'Medium', value: 'medium' },
-  { key: 'high', text: 'High', value: 'high' },
+  {key: 'low', text: 'Low', value: 'low'},
+  {key: 'medium', text: 'Medium', value: 'medium'},
+  {key: 'high', text: 'High', value: 'high'},
 ];
 
 class App extends Component {
@@ -16,7 +17,7 @@ class App extends Component {
     modalOpen: false,
     taskAddText: '',
     taskAddLevel: '',
-    columnSelected: null
+    columnSelected: null,
   };
 
   createTaskHandler = () => {
@@ -25,7 +26,7 @@ class App extends Component {
       column: this.state.columnSelected,
       task: this.state.taskAddText,
       level: this.state.taskAddLevel,
-      date: currentDate
+      date: currentDate,
     };
     this.props.onCreateTask(payload);
     this.closeModalHandler();
@@ -39,7 +40,7 @@ class App extends Component {
   deleteThisTask = (taskIndex, columnIndex) => {
     this.props.onDeleteTask({
       taskIndex: taskIndex,
-      columnIndex: columnIndex
+      columnIndex: columnIndex,
     })
     this.forceUpdate();
   };
@@ -49,50 +50,51 @@ class App extends Component {
     this.forceUpdate();
   };
 
-  closeModalHandler = () => this.setState({ modalOpen: false });
+  closeModalHandler = () => this.setState({modalOpen: false});
   openModalHandler = () => this.setState({modalOpen: true});
   changeTaskAddText = (event) => this.setState({taskAddText: event.target.value});
   changeTaskAddLevel = (event) => this.setState({taskAddLevel: event.target.textContent});
 
   render() {
     return (
-      <div>
-        <Header/>
+        <div>
+          <Header/>
 
-        <Modal size='mini' open={this.state.modalOpen} onClose={this.closeModalHandler}>
-          <Modal.Header>Create a new task</Modal.Header>
-          <Modal.Content>
-            <Form>
-              <Form.Field>
-                <Form.TextArea label='Task' placeholder='Write the task' onChange={this.changeTaskAddText}/>
-                <Form.Select fluid options={ModalOptions} placeholder='Difficulty level' onChange={this.changeTaskAddLevel} />
-              </Form.Field>
-              <Button.Group>
-                <Button onClick={this.closeModalHandler}>Cancel</Button>
-                <Button.Or />
-                <Button positive onClick={this.createTaskHandler}>Create</Button>
-              </Button.Group>
-            </Form>
-          </Modal.Content>
-        </Modal>
+          <Modal size='mini' open={this.state.modalOpen} onClose={this.closeModalHandler}>
+            <Modal.Header>Create a new task</Modal.Header>
+            <Modal.Content>
+              <Form>
+                <Form.Field>
+                  <Form.TextArea label='Task' placeholder='Write the task' onChange={this.changeTaskAddText}/>
+                  <Form.Select fluid options={ModalOptions} placeholder='Difficulty level'
+                               onChange={this.changeTaskAddLevel}/>
+                </Form.Field>
+                <Button.Group>
+                  <Button onClick={this.closeModalHandler}>Cancel</Button>
+                  <Button.Or/>
+                  <Button positive onClick={this.createTaskHandler}>Create</Button>
+                </Button.Group>
+              </Form>
+            </Modal.Content>
+          </Modal>
 
-        <Grid style={{margin: '8px'}}>
-          <Grid.Row columns={5}>
-            {
-              this.props.column.map((column, i) =>
-                  <Column
-                      column={column}
-                      index={i}
-                      key={i}
-                      openModal={() => this.addNewTask(i)}
-                      deleteThisTask={(index) => this.deleteThisTask(index, i)}
-                      handleMove={(task, taskIndex, direction) => this.handleMove(task, i, taskIndex, direction)}
-                  />
-              )
-            }
-          </Grid.Row>
-        </Grid>
-      </div>
+          <Grid style={{margin: '8px'}}>
+            <Grid.Row columns={5}>
+              {
+                this.props.column.map((column, i) =>
+                    <Column
+                        column={column}
+                        index={i}
+                        key={i}
+                        openModal={() => this.addNewTask(i)}
+                        deleteThisTask={(index) => this.deleteThisTask(index, i)}
+                        handleMove={(task, taskIndex, direction) => this.handleMove(task, i, taskIndex, direction)}
+                    />,
+                )
+              }
+            </Grid.Row>
+          </Grid>
+        </div>
     );
   }
 }
@@ -112,8 +114,8 @@ const mapDispatchToProps = dispatch => {
       task: task,
       columnIndex: columnIndex,
       taskIndex: taskIndex,
-      direction: direction
-    })
+      direction: direction,
+    }),
   };
 };
 

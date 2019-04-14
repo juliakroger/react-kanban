@@ -1,6 +1,7 @@
 import React from 'react';
-import {Grid, Menu, Button} from 'semantic-ui-react';
+import {Button, Grid, Menu} from 'semantic-ui-react';
 import Task from './Task';
+
 
 const DIRECTION_LEFT = -1;
 const DIRECTION_RIGHT = 1;
