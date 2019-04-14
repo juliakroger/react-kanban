@@ -2,6 +2,9 @@ import React from 'react';
 import {Grid, Menu, Button} from 'semantic-ui-react';
 import Task from './Task';
 
+const DIRECTION_LEFT = -1;
+const DIRECTION_RIGHT = 1;
+
 const Column = (props) => {
   return (
       <div>
@@ -15,6 +18,10 @@ const Column = (props) => {
                       task={task}
                       key={task.id}
                       deleteThisTask={() => props.deleteThisTask(index)}
+                      canMoveLeft={props.index !== 0}
+                      canMoveRight={props.index !== 4}
+                      onMoveLeft={() => props.handleMove(task, index, DIRECTION_LEFT)}
+                      onMoveRight={() => props.handleMove(task, index, DIRECTION_RIGHT)}
                   />
                 })
               }
@@ -24,6 +31,6 @@ const Column = (props) => {
         </Grid.Column>
       </div>
   );
-}
+};
 
 export default Column;

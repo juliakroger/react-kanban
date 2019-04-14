@@ -17,6 +17,11 @@ const Task = (props) => {
           <Card.Meta><Moment fromNow>{props.task.date}</Moment></Card.Meta>
           <Card.Description>{props.task.task}</Card.Description>
         </Card.Content>
+
+        <Card.Content extra>
+          {(props.canMoveLeft) && <Icon name='arrow alternate circle left outline' onClick={() => props.onMoveLeft()} color='teal' style={{cursor: 'pointer'}}/>}
+          {(props.canMoveRight) && <Icon name='arrow alternate circle right outline' onClick={() => props.onMoveRight()} color='teal' style={{cursor: 'pointer'}}/>}
+        </Card.Content>
       </Card>
   );
 };

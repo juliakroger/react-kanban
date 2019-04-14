@@ -44,6 +44,11 @@ class App extends Component {
     this.forceUpdate();
   };
 
+  handleMove = (task, columnIndex, taskIndex, direction) => {
+    this.props.handleMove(task, columnIndex, taskIndex, direction);
+    this.forceUpdate();
+  };
+
   closeModalHandler = () => this.setState({ modalOpen: false });
   openModalHandler = () => this.setState({modalOpen: true});
   changeTaskAddText = (event) => this.setState({taskAddText: event.target.value});
@@ -81,6 +86,7 @@ class App extends Component {
                       key={i}
                       openModal={() => this.addNewTask(i)}
                       deleteThisTask={(index) => this.deleteThisTask(index, i)}
+                      handleMove={(task, taskIndex, direction) => this.handleMove(task, i, taskIndex, direction)}
                   />
               )
             }
@@ -101,6 +107,13 @@ const mapDispatchToProps = dispatch => {
   return {
     onCreateTask: (payload) => dispatch({type: actions.ADD_TASK, payload: payload}),
     onDeleteTask: (payload) => dispatch({type: actions.DELETE_TASK, payload: payload}),
+    handleMove: (task, columnIndex, taskIndex, direction) => dispatch({
+      type: actions.MOVE_TASK,
+      task: task,
+      columnIndex: columnIndex,
+      taskIndex: taskIndex,
+      direction: direction
+    })
   };
 };
 
