@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {Grid, Modal, Form, Button} from 'semantic-ui-react';
 import Header from '../components/Header';
 import Column from '../components/Column';
+import * as actions from "../store/actions/actionsTypes";
 
 const ModalOptions = [
   { key: 'low', text: 'Low', value: 'low' },
@@ -15,10 +16,23 @@ class App extends Component {
     modalOpen: false,
     taskAddText: '',
     taskAddLevel: '',
+    columnSelected: null
+  };
+
+  createTaskHandler = () => {
+    let currentDate = new Date().getTime();
+    const payload = {
+      column: this.state.columnSelected,
+      task: this.state.taskAddText,
+      level: this.state.taskAddLevel,
+      date: currentDate
+    };
+    this.props.onCreateTask(payload);
+    this.closeModalHandler();
   };
 
   addNewTask = (index) => {
-    this.openModalHandler()
+    this.openModalHandler();
     this.setState({columnSelected: index})
   };
 
@@ -43,7 +57,7 @@ class App extends Component {
               <Button.Group>
                 <Button onClick={this.closeModalHandler}>Cancel</Button>
                 <Button.Or />
-                <Button positive>Create</Button>
+                <Button positive onClick={this.createTaskHandler}>Create</Button>
               </Button.Group>
             </Form>
           </Modal.Content>
@@ -74,4 +88,10 @@ const mapStateToProps = state => {
   }
 };
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => {
+  return {
+    onCreateTask: (payload) => dispatch({type: actions.ADD_TASK, payload: payload}),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

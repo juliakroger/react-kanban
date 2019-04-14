@@ -10,8 +10,21 @@ const initialState = {
   ]
 };
 
+let newState = null;
 const reducer = (state=initialState, action) => {
   switch (action.type) {
+    case act.ADD_TASK:
+      newState = state.columns;
+      newState[action.payload.column].tasks.push({
+        id: Math.random().toString(36).substr(2, 9),
+        task: action.payload.task,
+        level: action.payload.level,
+        date: action.payload.date
+      })
+      return {
+        ...state,
+        columns: newState
+      };
 
     default:
       return state;
