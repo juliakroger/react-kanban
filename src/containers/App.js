@@ -36,6 +36,14 @@ class App extends Component {
     this.setState({columnSelected: index})
   };
 
+  deleteThisTask = (taskIndex, columnIndex) => {
+    this.props.onDeleteTask({
+      taskIndex: taskIndex,
+      columnIndex: columnIndex
+    })
+    this.forceUpdate();
+  };
+
   closeModalHandler = () => this.setState({ modalOpen: false });
   openModalHandler = () => this.setState({modalOpen: true});
   changeTaskAddText = (event) => this.setState({taskAddText: event.target.value});
@@ -72,6 +80,7 @@ class App extends Component {
                       index={i}
                       key={i}
                       openModal={() => this.addNewTask(i)}
+                      deleteThisTask={(index) => this.deleteThisTask(index, i)}
                   />
               )
             }
@@ -91,6 +100,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onCreateTask: (payload) => dispatch({type: actions.ADD_TASK, payload: payload}),
+    onDeleteTask: (payload) => dispatch({type: actions.DELETE_TASK, payload: payload}),
   };
 };
 

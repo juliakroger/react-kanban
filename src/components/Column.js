@@ -11,7 +11,11 @@ const Column = (props) => {
             <Grid.Row>
               {
                 props.column.tasks.map((task, index) => {
-                  return <Task task={task}/>
+                  return <Task
+                      task={task}
+                      key={task.id}
+                      deleteThisTask={() => props.deleteThisTask(index)}
+                  />
                 })
               }
               <Button basic color='teal' fluid onClick={props.openModal}>Add a new task</Button>

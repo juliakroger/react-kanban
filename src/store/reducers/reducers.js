@@ -26,6 +26,14 @@ const reducer = (state=initialState, action) => {
         columns: newState
       };
 
+    case act.DELETE_TASK:
+      newState = state.columns;
+      newState[action.payload.columnIndex].tasks.splice(action.payload.taskIndex, 1);
+      return {
+        ...state,
+        columns: newState
+      };
+
     default:
       return state;
   }

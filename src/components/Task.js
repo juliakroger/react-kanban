@@ -12,7 +12,7 @@ const Task = (props) => {
       <Card color={color} style={{width: '90%', marginLeft: '5%', maxWidth: '300px'}}>
         <Card.Content>
           <List floated='right' horizontal>
-            <List.Item><Icon name='remove circle' color='teal' style={{cursor: 'pointer'}}/></List.Item>
+            <List.Item><Icon name='remove circle' color='teal' onClick={() => props.deleteThisTask(props.task)} style={{cursor: 'pointer'}}/></List.Item>
           </List>
           <Card.Meta><Moment fromNow>{props.task.date}</Moment></Card.Meta>
           <Card.Description>{props.task.task}</Card.Description>
