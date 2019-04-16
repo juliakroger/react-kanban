@@ -11,6 +11,20 @@ const initialState = {
   ],
 };
 
+function compare(first, second) {
+  const taskA = first.task.toUpperCase();
+  const taskB = second.task.toUpperCase();
+
+  let comparison = 0;
+  if (taskA > taskB) {
+    comparison = 1;
+  }
+  else if (taskA < taskB) {
+    comparison = -1;
+  }
+  return comparison;
+}
+
 let newState = null;
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -42,6 +56,15 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         columns: columns,
+      };
+
+    case act.ORDENATION_TASK:
+      const column = action.payload;
+      newState = state.columns;
+      newState[column].tasks.sort(compare);
+      return {
+          ...state,
+        columns: newState,
       };
 
     default:

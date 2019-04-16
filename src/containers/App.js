@@ -50,6 +50,11 @@ class App extends Component {
     this.forceUpdate();
   };
 
+  alphabeticOrdenation = (index) => {
+    this.props.onOrdenationTask(index);
+    this.forceUpdate();
+  };
+
   closeModalHandler = () => this.setState({modalOpen: false});
   openModalHandler = () => this.setState({modalOpen: true});
   changeTaskAddText = (event) => this.setState({taskAddText: event.target.value});
@@ -89,6 +94,7 @@ class App extends Component {
                         openModal={() => this.addNewTask(i)}
                         deleteThisTask={(index) => this.deleteThisTask(index, i)}
                         handleMove={(task, taskIndex, direction) => this.handleMove(task, i, taskIndex, direction)}
+                        alphabeticOrdenation={() => this.alphabeticOrdenation(i)}
                     />,
                 )
               }
@@ -116,6 +122,8 @@ const mapDispatchToProps = dispatch => {
       taskIndex: taskIndex,
       direction: direction,
     }),
+    onOrdenationTask: (payload) => dispatch({type: actions.ORDENATION_TASK, payload: payload})
+
   };
 };
 

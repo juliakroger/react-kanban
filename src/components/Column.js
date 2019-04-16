@@ -10,6 +10,7 @@ const Column = (props) => {
   return (
       <div>
         <Grid.Column style={{minWidth: '300px', marginBottom: '20px', margin: '3px'}}>
+          <Button basic color='teal' fluid onClick={props.alphabeticOrdenation}>Ordenar em ordem alfabetica</Button>
           <Menu fluid vertical>
             <Menu.Item className='header'>{props.column.title}</Menu.Item>
             <Grid.Row>
