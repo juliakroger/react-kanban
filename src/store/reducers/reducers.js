@@ -14,14 +14,9 @@ const initialState = {
 function compare(first, second) {
   const taskA = first.task.toUpperCase();
   const taskB = second.task.toUpperCase();
-
   let comparison = 0;
-  if (taskA > taskB) {
-    comparison = 1;
-  }
-  else if (taskA < taskB) {
-    comparison = -1;
-  }
+  if (taskA > taskB) comparison = 1;
+  else if (taskA < taskB) comparison = -1;
   return comparison;
 }
 
