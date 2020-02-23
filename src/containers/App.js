@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {Button, Form, Grid, Modal} from 'semantic-ui-react';
 import Header from '../components/Header';
@@ -12,72 +12,68 @@ const ModalOptions = [
   {key: 'high', text: 'High', value: 'high'},
 ];
 
-class App extends Component {
-  state = {
-    modalOpen: false,
-    taskAddText: '',
-    taskAddLevel: '',
-    columnSelected: null,
-  };
 
-  createTaskHandler = () => {
+const App = ({ onCreateTask, onDeleteTask, handleMove, onOrdenationTask, column}) => {
+  // TODO: handle move is with problem with rerender, Alphabetic is 
+  const [modalOpen, setModalOpen] = useState(false);
+  const [taskAddText, setTaskAddText] = useState('');
+  const [taskAddLevel, setTaskAddLevel] = useState('');
+  const [columnSelected, setColumnSelected] = useState(null);
+
+
+ const openModalHandler = () => setModalOpen(true);
+ const closeModalHandler = () => setModalOpen(false);
+ 
+ const changeTaskAddText = (event) => setTaskAddText(event.target.value);
+ const changeTaskAddLevel = (event) => setTaskAddLevel(event.target.textContent);
+
+
+  const createTaskHandler = () => {
     let currentDate = new Date().getTime();
     const payload = {
-      column: this.state.columnSelected,
-      task: this.state.taskAddText,
-      level: this.state.taskAddLevel,
+      column: columnSelected,
+      task: taskAddText,
+      level: taskAddLevel,
       date: currentDate,
     };
-    this.props.onCreateTask(payload);
-    this.closeModalHandler();
+    onCreateTask(payload);
+    closeModalHandler();
   };
 
-  addNewTask = (index) => {
-    this.openModalHandler();
-    this.setState({columnSelected: index})
+  const addNewTask = (index) => {
+    openModalHandler();
+    setColumnSelected(index)
   };
 
-  deleteThisTask = (taskIndex, columnIndex) => {
-    this.props.onDeleteTask({
+  const deleteThisTask = (taskIndex, columnIndex) => {
+    onDeleteTask({
       taskIndex: taskIndex,
       columnIndex: columnIndex,
     })
-    this.forceUpdate();
+    // forceUpdate();
   };
 
-  handleMove = (task, columnIndex, taskIndex, direction) => {
-    this.props.handleMove(task, columnIndex, taskIndex, direction);
-    this.forceUpdate();
+  const alphabeticOrdenation = (index) => {
+    onOrdenationTask(index);
+    // forceUpdate();
   };
 
-  alphabeticOrdenation = (index) => {
-    this.props.onOrdenationTask(index);
-    this.forceUpdate();
-  };
-
-  closeModalHandler = () => this.setState({modalOpen: false});
-  openModalHandler = () => this.setState({modalOpen: true});
-  changeTaskAddText = (event) => this.setState({taskAddText: event.target.value});
-  changeTaskAddLevel = (event) => this.setState({taskAddLevel: event.target.textContent});
-
-  render() {
     return (
         <div>
           <Header/>
-
-          <Modal size='mini' open={this.state.modalOpen} onClose={this.closeModalHandler}>
+          <Modal size='mini' open={modalOpen} onClose={closeModalHandler}>
             <Modal.Header>Create a new task</Modal.Header>
             <Modal.Content>
               <Form>
                 <Form.Field>
-                  <Form.TextArea label='Task' placeholder='Write the task' onChange={this.changeTaskAddText}/>
+                  <Form.TextArea label='Task' placeholder='Write the task' onChange={changeTaskAddText}/>
                   <Form.Select fluid options={ModalOptions} placeholder='Difficulty level'
-                               onChange={this.changeTaskAddLevel}/>
+                               onChange={changeTaskAddLevel}/>
                 </Form.Field>
                 <Button.Group>
-                  <Button onClick={this.closeModalHandler}>Cancel</Button>
+                  <Button onClick={closeModalHandler}>Cancel</Button>
                   <Button.Or/>
-                  <Button positive onClick={this.createTaskHandler}>Create</Button>
+                  <Button positive onClick={createTaskHandler}>Create</Button>
                 </Button.Group>
               </Form>
             </Modal.Content>
@@ -86,15 +82,15 @@ class App extends Component {
           <Grid style={{margin: '8px'}}>
             <Grid.Row columns={5}>
               {
-                this.props.column.map((column, i) =>
+                column.map((column, i) =>
                     <Column
                         column={column}
                         index={i}
                         key={i}
-                        openModal={() => this.addNewTask(i)}
-                        deleteThisTask={(index) => this.deleteThisTask(index, i)}
-                        handleMove={(task, taskIndex, direction) => this.handleMove(task, i, taskIndex, direction)}
-                        alphabeticOrdenation={() => this.alphabeticOrdenation(i)}
+                        openModal={() => addNewTask(i)}
+                        deleteThisTask={(index) => deleteThisTask(index, i)}
+                        handleMove={(task, taskIndex, direction) => [handleMove(task, i, taskIndex, direction), console.log("calling 2")]}
+                        alphabeticOrdenation={() => alphabeticOrdenation(i)}
                     />,
                 )
               }
@@ -102,7 +98,6 @@ class App extends Component {
           </Grid>
         </div>
     );
-  }
 }
 
 const mapStateToProps = state => {
